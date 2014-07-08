@@ -6,6 +6,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.Table;
 @Entity
 public class Book implements Serializable {
@@ -51,5 +53,20 @@ public class Book implements Serializable {
 	}
 	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
+	}
+	public static boolean exists(String name, String author, String description) {
+		Query q = Global.em.createQuery("select b from Book b where lower(b.name)=lower(:name) and lower(b.author)=lower(:author) and lower(b.description)=lower(:description)");
+		q.setParameter("name", name);
+		q.setParameter("author", author);
+		q.setParameter("description", description);
+		try {
+			return (Book) q.getSingleResult() != null;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
+	public static Book[] getAll() {
+		Query q = Global.em.createQuery("select b from Book b");
+		return (Book[])q.getResultList().toArray();
 	}
 }

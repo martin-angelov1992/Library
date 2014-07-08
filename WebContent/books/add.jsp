@@ -1,24 +1,61 @@
 <%@ include file="../header.jsp" %>
 <script type="text/javascript">
-var addBookBtn = new sap.ui.commons.Button("btn");
-addBookBtn.setText("Add Book");
-addBookBtn.attachPress(function(){
-	$("#add-book").submit();
+var layout = new sap.ui.layout.form.GridLayout();
+var fields = [["Name", "name"], ["Author", "author"], ["Description", "description"], ["Amount", "amount"]];
+var fieldElements = new Array();
+var addToForm = new Array();
+for(i in fields) {
+    fieldElements[fields[i][1]] = new sap.ui.commons.TextField(fields[i][1], {layoutData: new sap.ui.core.VariantLayoutData({
+                                                    multipleLayoutData: [new sap.ui.layout.ResponsiveFlowLayoutData({weight: 3}),
+                                                                                 new sap.ui.layout.form.GridElementData({hCells: "3"})]
+                                            }),
+                                            name: fields[i][1]
+                                    }),
+
+
+    addToForm.push(new sap.ui.layout.form.FormElement({
+                    label: fields[i][0],
+                    fields: [fieldElements[fields[i][1]]],
+                    layoutData: new sap.ui.layout.ResponsiveFlowLayoutData({weight: 4, margin: false})})
+    )
+}
+addToForm.push(new sap.ui.layout.form.FormElement({
+        label: "",
+        fields: [new sap.ui.commons.Button({
+                    text: "Add book",
+                                layoutData: new sap.ui.core.VariantLayoutData({
+                                        multipleLayoutData: [new sap.ui.layout.ResponsiveFlowLayoutData({weight: 3}),
+                                                                     new sap.ui.layout.form.GridElementData({hCells: "3"})]
+                                })
+                }).attachPress(function(){
+                    var vals = {};
+                    for(i in fieldElements) {
+                        vals[fieldElements[i].getName()] = fieldElements[i].getValue();
+                    }
+                    $.post("/"+urlPrefix+"books/AddAjax", vals, function(msg) {
+                        var response = JSON.parse(msg);
+                        var responseDialog = new sap.ui.commons.Dialog({modal: true, autoClose: true});
+                        var text = new sap.ui.commons.TextView(response.type+"Dialog", {text: response.msg});
+                        responseDialog.addContent(text);
+                        responseDialog.attachClosed(function() {
+                        	responseDialog.destroy();
+                        });
+                        responseDialog.open();
+                    });
+                })
+        ]
+}))
+var form = new sap.ui.layout.form.Form("F1", {
+    title: new sap.ui.core.Title({text: "Add Book"}),
+    layout: layout,
+    formContainers: [
+		new sap.ui.layout.form.FormContainer("F1C1",{
+			formElements: addToForm
+			}
+        )
+    ]
 });
-addBookBtn.placeAt("add-book-btn");
+form.placeAt("addBookForm");
 </script>
-<c:choose>
-<c:when test="${created ne null}">
-<p style="color:green">Book added successfully</p>
-</c:when>
-</c:choose>
-<form method="post" id="add-book">
-<table>
-	<tr><td><label for="name">Name: </label></td><td><input type="text" name="name" id="name"></td></tr>
-	<tr><td><label for="author">Author: </label></td><td><input type="text" name="author" id="author"></td></tr>
-	<tr><td><label for="description">Description: </label></td><td><input type="text" name="description" id="description"></td></tr>
-	<tr><td><label for="amount">Amount: </label></td><td><input type="text" name="amount" id="amount" value="1"></td></tr>
-</table>
-	<div id="add-book-btn"></div>
-</form>
+<div id="addBookForm"></div>
 <%@ include file="../footer.jsp" %>

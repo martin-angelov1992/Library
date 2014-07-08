@@ -22,7 +22,7 @@ public class Global {
 	public static void handleGlobals(HttpServletRequest request) throws NamingException {
 		setUpDB();
 		setUpUser(request.getSession());
-		bindData(request);
+		//bindData(request);
 	}
 	private static void setUpDB() throws NamingException {
         InitialContext ctx = new InitialContext();

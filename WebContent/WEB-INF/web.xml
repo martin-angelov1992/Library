@@ -93,4 +93,54 @@
     <servlet-name>Add</servlet-name>
     <url-pattern>/books/Add</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddAjax</display-name>
+    <servlet-name>AddAjax</servlet-name>
+    <servlet-class>servlets.books.AddAjax</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddAjax</servlet-name>
+    <url-pattern>/books/AddAjax</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GenerateGlobals</display-name>
+    <servlet-name>GenerateGlobals</servlet-name>
+    <servlet-class>servlets.GenerateGlobals</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GenerateGlobals</servlet-name>
+    <url-pattern>/globals.json</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoginAjax</display-name>
+    <servlet-name>LoginAjax</servlet-name>
+    <servlet-class>servlets.LoginAjax</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginAjax</servlet-name>
+    <url-pattern>/LoginAjax</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GenerateBooks</display-name>
+    <servlet-name>GenerateBooks</servlet-name>
+    <servlet-class>servlets.GenerateBooks</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GenerateBooks</servlet-name>
+    <url-pattern>/GenerateBooks</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Books</display-name>
+    <servlet-name>Books</servlet-name>
+    <servlet-class>servlets.Books</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Books</servlet-name>
+    <url-pattern>/Books</url-pattern>
+  </servlet-mapping>
 </web-app>
