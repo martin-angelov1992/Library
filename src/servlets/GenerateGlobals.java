@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import library.AdminVisitor;
 import library.Global;
+
 
 
 import com.google.gson.Gson;
@@ -38,7 +40,7 @@ public class GenerateGlobals extends HttpServlet {
 		objects.put("loggedIn", Global.visitor.isLoggedIn());
 		if(Global.visitor.isLoggedIn()) {
 			objects.put("username", ((AdminVisitor)Global.visitor).getUsername());
-			HashMap<String, String> links = new HashMap<String, String>();
+			LinkedHashMap<String, String> links = new LinkedHashMap<String, String>();
 			links.put("Books", "Books");
 			links.put("Add Book", "books/Add");
 			links.put("Users", "users");

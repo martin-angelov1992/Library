@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,10 +33,19 @@ public class GenerateBooks extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new GsonBuilder().create();
-		Book[] book = Book.getAll();
-		HashMap<String, Object> objects = new HashMap<String, Object>();
-		//for(int i)
-		response.getWriter().print(gson.toJson(objects));
+		HashMap<String, Book[]> hm = new HashMap<String, Book[]>();
+		Book[] books = Book.getAll();
+		/*TreeSet<HashMap<String, String>> objects = new TreeSet<HashMap<String, String>>();
+		for(int i=0;i<books.length;++i) {
+			HashMap<String, String> pairs = new HashMap<String, String>();
+			pairs.put("name", books[i].getName());
+			pairs.put("author", books[i].getAuthor());
+			pairs.put("description", books[i].getDescription());
+			pairs.put("count", String.format("%d/%d", books[i].getAvailableCount(), books[i].getTotalCount()));
+			objects.add(pairs);
+		}*/
+		hm.put("model", books);
+		response.getWriter().print(gson.toJson(hm));
 	}
 
 }

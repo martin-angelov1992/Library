@@ -1,20 +1,41 @@
 <%@ include file="header.jsp" %>
-<table border="1">
-<tr><td>Name</td><td>Author</td><td>Description</td><td>Amount</td><td>Add to user</td><<td>Edit</td>/tr>
-<c:forEach var="book" items="${books}">
-	<tr>
-		<td>${fn:escapeXml(book.getName())}</td>
-		<td>${fn:escapeXml(book.getAuthor())}</td>
-		<td>${fn:escapeXml(book.getDescription())}</td>
-		<td><c:out value="${book.getAvailableCount()}" />/<c:out value="${book.getTotalCount()}" /></td>
-		<td><a href="/<c:out value="${urlPrefix}" />?Booking?bookId=<c:out value="${book.getId()}" />">booking</a></td>
-	</tr>
-</c:forEach>
-</table>
-<c:choose>
-      <c:when test="${page ne 1}">
-<a href="/<c:out value="${urlPrefix}books" />">first</a>
-<a href="/<c:out value="${urlPrefix}books?page=${page-1}" />"><< previous</a>
-      </c:when>
-</c:choose>
+<script type="text/javascript">
+var columns = {name: "Name", author: "Author", description: "Description"/*, amount: "Amount", booking: "Booking", edit: "Edit", delete: "Delete"*/};
+var model = new sap.ui.model.json.JSONModel();
+var table = new sap.ui.table.Table({
+    title: "books",
+    visibleRowCount: 7,
+    selectionMode: sap.ui.table.SelectionMode.Single
+});
+for(i in columns) {
+    var column = new sap.ui.table.Column({
+        label: new sap.ui.commons.Label({text: columns[i]}),
+        template: new sap.ui.commons.TextView().bindProperty("text", i),
+        sortProperty: i,
+        filterProperty: i,
+        width: "200px"
+    });
+    table.addColumn(column);
+}
+table.addColumn(new sap.ui.table.Column({
+        label: new sap.ui.commons.Label({text: "Amount"}),
+        template: new sap.ui.commons.TextView().bindProperty("text", {
+            parts: [
+                {path: "availableCount", type: new sap.ui.model.type.String()},
+                {path: "totalCount", type: new sap.ui.model.type.String()}
+            ],
+            formatter: function(availableCount, totalCount){
+              return availableCount + "/" + totalCount;
+            }
+        }),
+        sortProperty: "amount",
+        filterProperty: "amount",
+        width: "200px"
+}));
+model.loadData("/"+urlPrefix+"books/books.json");
+table.setModel(model);
+table.bindRows("/model");
+table.placeAt("books");
+</script>
+<div id="books"></div>
 <%@ include file="footer.jsp" %>

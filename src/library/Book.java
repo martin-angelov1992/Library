@@ -2,6 +2,7 @@ package library;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,6 +68,9 @@ public class Book implements Serializable {
 	}
 	public static Book[] getAll() {
 		Query q = Global.em.createQuery("select b from Book b");
-		return (Book[])q.getResultList().toArray();
+		List<Book> list = q.getResultList();
+		Book[] books = new Book[list.size()];
+		list.toArray(books);
+		return books;
 	}
 }

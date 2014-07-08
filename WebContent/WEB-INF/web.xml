@@ -131,7 +131,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GenerateBooks</servlet-name>
-    <url-pattern>/GenerateBooks</url-pattern>
+    <url-pattern>/books/books.json</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -142,5 +142,15 @@
   <servlet-mapping>
     <servlet-name>Books</servlet-name>
     <url-pattern>/Books</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddUser</display-name>
+    <servlet-name>AddUser</servlet-name>
+    <servlet-class>servlets.users.Add</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddUser</servlet-name>
+    <url-pattern>/users/Add</url-pattern>
   </servlet-mapping>
 </web-app>
